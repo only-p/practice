@@ -1,116 +1,62 @@
-const nums = [1, 2, 3, 4];
-const x = nums.map((num, idx, nums) => {
-  return num * 2;
-});
+(function () {
+  let hour = document.querySelector(".Hour");
+  let min = document.querySelector(".Minute");
+  let sec = document.querySelector(".Second");
 
-Array.prototype.myMap = function (cb) {
-  let temp = [];
-  for (let i = 0; i < this.length; i++) {
-    temp.push(cb(this[i], i, this));
+  let startBtn = document.querySelector(".start");
+  let stopBtn = document.querySelector(".stop");
+  let resetBtn = document.querySelector(".reset");
+
+  let timerId = null;
+  function stopInterval() {
+    startBtn.style.display = "initial";
+    stopBtn.style.display = "none";
+    clearInterval(timerId);
   }
-  return temp;
-};
-
-// const y = nums.myMap((item, idx, arr) => {
-//   return item * 3;
-// });
-
-// console.log(y);
-
-Array.prototype.myFilter = function (cb) {
-  let temp = [];
-  for (let i = 0; i < this.length; i++) {
-    if (cb(this[i], i, this)) {
-      temp.push(this[i]);
+  startBtn.addEventListener("click", () => {
+    if (hour.value == 0 && min.value == 0 && sec.value == 0) return;
+    function startInerval() {
+      startBtn.style.display = "none";
+      stopBtn.style.display = "initial";
+      timerId = setInterval(() => {
+        timer();
+      }, 1000);
     }
-  }
-  return temp;
-};
-// console.log("--", nums);
-// const z = nums.myFilter((num, i, arr) => {
-//   return num > 1;
-// });
-// console.log("filter", z);
+    startInerval();
 
-// const sumf = nums.reduce((cumm,curr)=>{
-//   return cumm+=curr;
-// },0)
-// console.log('reduce',sumf);
+    function timer() {
+      if (sec.value > 60) {
+        min.value += 1;
+        sec.value = parseInt(sec.value) - 59;
+      }
+      if (min.value > 60) {
+        hour.value += 1;
+        min.value = parseInt(min.value) - 59;
+      }
 
-Array.prototype.myReduce = function (cb, initalval) {
-  let ans = !isNaN(initalval) ? initalval : this[0];
-  for (let i = 0; i < this.length; i++) {
-    ans = cb(ans, this[i], i, this);
-  }
-  return ans;
-};
-
-const sum1 = nums.myReduce((cumm, num, idx, arr) => {
-  return (cumm += num);
-}, 0);
-// console.log("myreduce", sum);
-
-for (var i = 0; i < 4; i++) {
-  function fn(i) {
-    setTimeout(() => {
-      console.log(i);
-    }, i * 1000);
-  }
-  // fn(i);
-}
-
-// currey
-
-function infiniteSum(a) {
-  return function x(b) {
-    if (b) {
-      return infiniteSum(a + b);
-    } else return a;
-  };
-}
-
-// console.log(infiniteSum(1)(2)(3)());
-
-// curry implemention
-//  sum(a,b,c)=> sum(a)(b)(c)
-
-function curry(fn) {
-  return function curriedFunction(...args) {
-    if (args.length >= fn.length) {
-      return fn(...args);
-    } else {
-      return function (...next) {
-        return curriedFunction(...args, ...next);
-      };
+      if (hour.value == 0 && min.value == 0 && sec.value == 0) {
+        hour.value == "";
+        min.value == "";
+        sec.value == "";
+        stopInterval();
+      } else if (sec.value != 0) {
+        sec.value = `${sec.value <= 10 ? "0" : ""}${sec.value - 1}`;
+      } else if (min.value != 0 && sec.value == 0) {
+        sec.value = 59;
+        min.value = `${min.value <= 10 ? "0" : ""}${min.value - 1}`;
+      } else if (hour.value != 0 && min.value == 0) {
+        min.value = 59;
+        hour.value = `${hour.value <= 10 ? "0" : ""}${hour.value - 1}`;
+      }
     }
-  };
-}
-
-function sum(a, b, c) {
-  return a + b + c;
-}
-
-const curried = curry(sum);
-const x1 = curried(1)(1)(1);
-// console.log(x1);
-
-const Person = {
-  name: "pramod",
-};
-function sayHi(age, height) {
-  console.log(`hi ${this.name} my age is ${age} and height is ${height}`);
-}
-
-// sayHi.call(Person, 25, 6);
-// sayHi.apply(Person, [26, 7]);
-
-// const bind = sayHi.bind(Person);
-// bind(28,8)
-
-Function.prototype.myCall = function (context, ...args) {
-  // console.log("args", args);
-  console.log("this", this);
-  context.fn = this;
-  context.fn(...args);
-};
-sayHi.myCall(Person, 25, 6);
+  });
+  stopBtn.addEventListener("click", () => {
+    stopInterval();
+  });
+  resetBtn.addEventListener("click", () => {
+    stopInterval();
+    sec.value = "";
+    min.value = "";
+    hour.value = "";
+  });
+})();
