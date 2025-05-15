@@ -356,6 +356,83 @@ function rateLimiter(fn, limit, interval) {
 
 const limitedFn = rateLimiter(fetchData, 5, 10000); // 5 calls per 10 seconds
 ```
+### **12. minHeap
+```js
+class MinHeap {
+    constructor(compare) {
+        this.data = [];
+        this.compare = compare;
+    }
+
+    push(val) {
+        this.data.push(val);
+        this._heapifyUp();
+    }
+
+    pop() {
+        const top = this.top();
+        const bottom = this.data.pop();
+        if (this.data.length) {
+            this.data[0] = bottom;
+            this._heapifyDown();
+        }
+        return top;
+    }
+
+    top() {
+        return this.data[0];
+    }
+
+    size() {
+        return this.data.length;
+    }
+
+    _heapifyUp() {
+        let i = this.data.length - 1;
+        const element = this.data[i];
+
+        while (i > 0) {
+            let parentIdx = Math.floor((i - 1) / 2);
+            let parent = this.data[parentIdx];
+            if (this.compare(element, parent) >= 0) break;
+            this.data[i] = parent;
+            i = parentIdx;
+        }
+        this.data[i] = element;
+    }
+
+    _heapifyDown() {
+        let i = 0;
+        const length = this.data.length;
+        const element = this.data[0];
+
+        while (true) {
+            let leftIdx = 2 * i + 1;
+            let rightIdx = 2 * i + 2;
+            let smallest = i;
+
+            if (
+                leftIdx < length &&
+                this.compare(this.data[leftIdx], this.data[smallest]) < 0
+            ) {
+                smallest = leftIdx;
+            }
+
+            if (
+                rightIdx < length &&
+                this.compare(this.data[rightIdx], this.data[smallest]) < 0
+            ) {
+                smallest = rightIdx;
+            }
+
+            if (smallest === i) break;
+            [this.data[i], this.data[smallest]] = [this.data[smallest], this.data[i]];
+            i = smallest;
+        }
+    }
+}
+
+```
 
 ---
 
