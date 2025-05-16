@@ -434,5 +434,44 @@ obj.print()
 ```
 
 ---
+## heapify
+```js
+function maxHeapify(arr, n, i) {
+    let largest = i; // Initialize largest as root
+    const left = 2 * i + 1; // left child
+    const right = 2 * i + 2; // right child
+
+    // If left child is larger than root
+    if (left < n && arr[left] > arr[largest]) {
+        largest = left;
+    }
+
+    // If right child is larger than largest so far
+    if (right < n && arr[right] > arr[largest]) {
+        largest = right;
+    }
+
+    // If largest is not root
+    if (largest !== i) {
+        // Swap the values
+        [arr[i], arr[largest]] = [arr[largest], arr[i]];
+        
+        // Recursively heapify the affected sub-tree
+        maxHeapify(arr, n, largest);
+    }
+}
+
+
+function buildMaxHeap(arr) {
+    const n = arr.length;
+    // Start from the last non-leaf node and work up
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
+        maxHeapify(arr, n, i);
+    }
+    return arr;
+}
+const arr = [4, 10, 3, 5, 1];
+console.log(buildMaxHeap(arr));
+```
 
 This list should give you an organized reference of common JavaScript challenges, including **data manipulation**, **functional programming**, **asynchronous handling**, and **polyfills**. If you want to dive deeper into any of these solutions or need more examples, feel free to ask!
