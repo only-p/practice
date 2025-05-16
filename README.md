@@ -358,79 +358,78 @@ const limitedFn = rateLimiter(fetchData, 5, 10000); // 5 calls per 10 seconds
 ```
 ### **12. minHeap
 ```js
-class MinHeap {
-    constructor(compare) {
-        this.data = [];
-        this.compare = compare;
+class MaxHeap{
+    constructor(){
+        this.data = []
     }
-
-    push(val) {
-        this.data.push(val);
-        this._heapifyUp();
-    }
-
-    pop() {
-        const top = this.top();
-        const bottom = this.data.pop();
-        if (this.data.length) {
-            this.data[0] = bottom;
-            this._heapifyDown();
+    
+    _heapifyUp(){
+        let n = this.data.length-1;
+        while(n>0){
+            let parent = Math.floor((n-1)/2);
+            if(this.data[parent]<this.data[n] ){
+                [this.data[parent],this.data[n]] = [this.data[n],this.data[parent]];
+                n = parent;
+            }else{
+                break;
+            }
         }
-        return top;
     }
-
-    top() {
+    _heapifyDown(){
+        let i=0;
+        const n = this.data.length
+        while(i<n){
+            let leftIdx = 2*i+1;
+            let rightIdx =2*i+2;
+            let larger = i;
+            if(leftIdx<n && this.data[leftIdx]>this.data[i]){
+                larger = leftIdx;
+            }
+             if(rightIdx<n && this.data[rightIdx]>this.data[i]){
+                larger = rightIdx;
+            }
+            if(larger!==i){
+                [this.data[i],this.data[larger]] = [this.data[larger],this.data[i]];
+                i=larger;
+            }else{
+                break;
+            }
+        }
+    }
+    
+    push(val){
+        this.data.push(val)
+        this._heapifyUp()
+    }
+    pop(){
+        let n = this.data.length-1;
+        let result = this.data[0];
+        this.data[0] = this.data[n];
+        this.data.pop();
+        this._heapifyDown();
+         return result;
+    }
+     top() {
         return this.data[0];
     }
 
     size() {
         return this.data.length;
     }
-
-    _heapifyUp() {
-        let i = this.data.length - 1;
-        const element = this.data[i];
-
-        while (i > 0) {
-            let parentIdx = Math.floor((i - 1) / 2);
-            let parent = this.data[parentIdx];
-            if (this.compare(element, parent) >= 0) break;
-            this.data[i] = parent;
-            i = parentIdx;
-        }
-        this.data[i] = element;
+    print(){
+        return console.log(this.data)
     }
-
-    _heapifyDown() {
-        let i = 0;
-        const length = this.data.length;
-        const element = this.data[0];
-
-        while (true) {
-            let leftIdx = 2 * i + 1;
-            let rightIdx = 2 * i + 2;
-            let smallest = i;
-
-            if (
-                leftIdx < length &&
-                this.compare(this.data[leftIdx], this.data[smallest]) < 0
-            ) {
-                smallest = leftIdx;
-            }
-
-            if (
-                rightIdx < length &&
-                this.compare(this.data[rightIdx], this.data[smallest]) < 0
-            ) {
-                smallest = rightIdx;
-            }
-
-            if (smallest === i) break;
-            [this.data[i], this.data[smallest]] = [this.data[smallest], this.data[i]];
-            i = smallest;
-        }
-    }
+   
 }
+
+const obj = new MaxHeap();
+obj.push(3);
+obj.push(2);
+obj.push(1);
+console.log(obj.pop())
+obj.print();
+console.log(obj.pop())
+obj.print()
 
 ```
 
