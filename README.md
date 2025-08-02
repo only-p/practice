@@ -473,5 +473,69 @@ function buildMaxHeap(arr) {
 const arr = [4, 10, 3, 5, 1];
 console.log(buildMaxHeap(arr));
 ```
+**Question 13**:  
+Polyfill of map.
 
-This list should give you an organized reference of common JavaScript challenges, including **data manipulation**, **functional programming**, **asynchronous handling**, and **polyfills**. If you want to dive deeper into any of these solutions or need more examples, feel free to ask!
+**Solution**:
+
+```js
+const arr = [1,2,3,4];
+function double(x,y,z){
+    return 2*x;
+}
+
+
+Array.prototype.myMap = function(cb,thisArg){
+    const result = [];
+    const context = thisArg || undefined;
+
+    for(let i =0;i<this.length;i++){
+        result.push(cb.call(context,this[i],i,this))
+    }
+    return result;
+}
+
+console.log('build in map')
+const x = arr.map(double,arr)
+console.log(x);
+
+console.log('my map')
+const y = arr.myMap(double,arr);
+console.log(y)
+
+```
+**Question 14**:  
+Polyfill of filter.
+
+**Solution**:
+```js
+const arr = [1,2,3,4];
+function greater(x,y,z){
+    return x>2;
+}
+
+Array.prototype.myFilter = function(cb,thisArg){
+    const result =[];
+    const context = thisArg || undefined;
+    for(let i=0;i<this.length;i++){
+        if(cb.call(context,this[i],i,this)){
+            result.push(this[i]);
+        }
+    }
+    return result;
+}
+
+const x = arr.filter(greater);
+console.log('build in filter');
+console.log(x)
+const y = arr.myFilter(greater);
+console.log('my filter');
+console.log(y)
+
+
+```
+**Question 15**:  
+Polyfill of reduce.
+
+
+**Solution**:
