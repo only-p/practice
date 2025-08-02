@@ -539,3 +539,31 @@ Polyfill of reduce.
 
 
 **Solution**:
+```js
+const arr = [1,2,3,8,4];
+
+function sum(ans,current,idx,thisArg){
+    // console.log(ans,current,idx,thisArg)
+    return ans+=current;
+}
+Array.prototype.MyReduce = function(cb,initialValue){
+    let startingIdx = initialValue!==undefined?1:0;
+    if(typeof cb !=='function'){
+        throw new TypeError(cb + 'is not a valid function');
+    }
+    let ans = initialValue?initialValue:this[0];
+    for(let i=startingIdx;i<this.length;i++){
+       ans= cb(ans,this[i],i,this);
+    }
+    return ans;
+}
+
+const result = arr.reduce(sum,0);
+console.log('build in reduce');
+console.log(result);
+
+const myResult = arr.MyReduce(sum,0);
+console.log('my  reduce');
+console.log(myResult);
+
+```
