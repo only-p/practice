@@ -477,7 +477,7 @@ console.log(buildMaxHeap(arr));
 Polyfill of map.
 
 **Solution**:
-
+**Question 13**:  
 ```js
 const arr = [1,2,3,4];
 function double(x,y,z){
@@ -502,6 +502,98 @@ console.log(x);
 console.log('my map')
 const y = arr.myMap(double,arr);
 console.log(y)
+
+```Polyfllof map.
+
+**Souton**:
+
+```j
+consarr = [1,2,3,4];
+functin dobe(x,y,z){
+   rturn2*x;
+}
+
+
+Arra.prtotype.myMp= functin(cb,thisA){
+    costsult = [];
+    const contxt = thisAg || undfid;
+
+ fo(let  =0;i<his.length;i++){
+       result.pus(cb.c(cotxt,thi[i],this))
+    }
+    retur result;
+}
+
+onsoe.log('bil mp')
+cons x = rr.map(double,arr)
+console.log(x);
+
+console.log('myp')
+cost y = arr.myMa(dobe,rr);
+console.log(y)
+
+```
+**Ques 14: 
+Polyfill of filter.
+
+Solution**:
+```js
+const arr = [1,2,3,4];
+ greter(x,y,z){
+   return x>2;
+}
+
+Array.totype.myFilter = function(cb,thisAr){
+    const esult =[];
+    const context = thsArg || udefined;
+    for(let i=0;i<this.lenth;i++){
+       if(cb.cll(context,thi[i],i,this)){
+            result.push(this[i]);
+        }
+    }
+    retur result;
+}
+
+onst x = arr.filter(greate);
+csole.lg('bild in filter');
+console.log(x)
+cont y =arr.myFilter(greter);
+cosole.og('my flter');
+cosole.lo(y)
+
+
+```
+Questio15:  
+Poreduce.
+
+
+**Sltion**:
+```js
+constrr = [1,2,3,8,4];
+
+fucionsum(ans,current,idx,hisArg){
+    // console.lg(ans,current,ix,thsArg)
+    rturnans+=current;
+}
+Array.prototype.MyReuc = function(cb,initialValu){
+    lt statingIdx =iialVlue!==undefied?1:0;
+    if(tpeof cb!=='functin'){
+       row nw TypError(cb +'i nt a vaid fncn');
+    }
+    let a=iitialValu?initialValu:this[0];
+   f(lti=startingId;i<this.ngth;i++){
+       ans= cb(ans,thi[i],ithis);
+    }
+   rturn ans;
+}
+
+const rsut =arr.educ(sum,0);
+consol.log('build inreduce');
+console.log(resul);
+
+cnst myResult =rr.MyReduce(sum,0);
+console.log('my  reduce');
+console.log(myReult);
 
 ```
 **Question 14**:  
@@ -565,5 +657,48 @@ console.log(result);
 const myResult = arr.MyReduce(sum,0);
 console.log('my  reduce');
 console.log(myResult);
+
+```
+**Question 16**:  
+Polyfill of call apply bind.
+
+
+**Solution**:
+```js
+let person = {
+  firstname: "Kirtesh",
+  lastname: "bansal"
+}
+
+let printName = function (country) {
+  console.log(this.firstname + " " + this.lastname + " from " 
+  + country[0]);
+}
+Function.prototype.myCall = function(obj,...args){
+    // we can use symbol for unique key
+   obj.fn = this;
+   return obj.fn(...args)
+}
+Function.prototype.myApply = function(obj,args){
+    console.log(args);
+    obj.fn = this;
+    return obj.fn(args);
+}
+
+function fn(...first){
+    console.log(this.firstname+" "+ this.lastname+" "+ first)
+}
+
+Function.prototype.myBind = function(obj,...args){
+   const sym = Symbol();
+   obj[sym] = this
+    return function(...nextArgs){
+        return obj[sym](...args,...nextArgs);
+    }
+}
+
+printName.myApply(person, ["India"]);
+const x = fn.myBind(person,"first2");
+x(1)
 
 ```
