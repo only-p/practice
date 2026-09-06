@@ -74,7 +74,8 @@ function flatten(obj) {
   dfs(obj, "");
 
   return result;
-}```
+}
+```
 
 ---
 
