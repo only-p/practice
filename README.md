@@ -46,8 +46,8 @@ console.log(flattenObject(data));
   "user.details.location.city": "New York"
 }
 ```
-**method2
-```
+**method2**
+```js
 function flatten(obj) {
   const result = {};
 
