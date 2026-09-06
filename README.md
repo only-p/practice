@@ -46,6 +46,34 @@ console.log(flattenObject(data));
   "user.details.location.city": "New York"
 }
 ```
+```**method2
+function flatten(obj) {
+  const result = {};
+
+  function dfs(current, path) {
+    for (const key in current) {
+      const newPath = path
+        ? `${path}.${key}`
+        : key;
+
+      const value = current[key];
+
+      if (
+        value !== null &&
+        typeof value === "object" &&
+        !Array.isArray(value)
+      ) {
+        dfs(value, newPath);
+      } else {
+        result[newPath] = value;
+      }
+    }
+  }
+
+  dfs(obj, "");
+
+  return result;
+}```
 
 ---
 
